@@ -8,7 +8,7 @@
           v-for="recurring in recurringEvents"
           :key="recurring.title"
           class="recurring-event-item"
-          @click="openEventModal(recurring.event)"
+          @click="openEventModal(recurring.event!)"
         >
           <div class="recurring-event-content">
             <h4 class="recurring-event-title">{{ recurring.title }}</h4>
@@ -92,7 +92,7 @@
           v-for="event in oneTimeEvents"
           :key="event.id"
           :event="event"
-          @click="openEventModal"
+          @click="(e: CalendarEvent) => openEventModal(e)"
         />
       </div>
     </div>
@@ -181,11 +181,11 @@ const recurringEvents = computed(() => {
     .map(([_, events]) => {
       const sortedEvents = events.sort((a, b) => a.start.getTime() - b.start.getTime())
       return {
-        title: sortedEvents[0].title,
-        description: sortedEvents[0].description,
-        nextDate: sortedEvents[0].start,
+        title: sortedEvents[0]!.title,
+        description: sortedEvents[0]!.description,
+        nextDate: sortedEvents[0]!.start,
         totalCount: sortedEvents.length,
-        event: sortedEvents[0] // For modal
+        event: sortedEvents[0]! // For modal
       }
     })
 
@@ -206,9 +206,9 @@ const oneTimeEvents = computed(() => {
   // Filter for one-time events (only one occurrence)
   const oneTime = Object.entries(eventGroups)
     .filter(([_, events]) => events.length === 1)
-    .map(([_, events]) => events[0])
+    .map(([_, events]) => events[0]!)
 
-  return oneTime.sort((a, b) => a.start.getTime() - b.start.getTime())
+  return oneTime.sort((a, b) => a!.start.getTime() - b!.start.getTime())
 })
 
 const formatMonthYear = (date: Date) => {

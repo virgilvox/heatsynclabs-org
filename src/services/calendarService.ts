@@ -63,7 +63,7 @@ export class CalendarService {
       const allEvents = data.items.map((item: any) => this.parseGoogleCalendarEvent(item))
 
       // Filter out "Open Hours" and "Member hours" events from upcoming events
-      const events = allEvents.filter(event => {
+      const events = allEvents.filter((event: any) => {
         const title = event.title.toLowerCase()
         return !title.includes('open hours') && !title.includes('member hours')
       })
@@ -147,7 +147,7 @@ export class CalendarService {
       const allEvents = data.items.map((item: any) => this.parseGoogleCalendarEvent(item))
 
       // Filter out "Open Hours" and "Member hours" events from the events list
-      const events = allEvents.filter(event => {
+      const events = allEvents.filter((event: any) => {
         const title = event.title.toLowerCase()
         return !title.includes('open hours') && !title.includes('member hours')
       })

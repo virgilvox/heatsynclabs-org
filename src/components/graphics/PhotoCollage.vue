@@ -83,7 +83,7 @@ const shuffleArray = <T>(array: T[]): T[] => {
   const shuffled = [...array]
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+    [shuffled[i], shuffled[j]] = [shuffled[j]!, shuffled[i]!]
   }
   return shuffled
 }
@@ -118,8 +118,8 @@ const startRotation = () => {
       // Pre-select next featured photo
       const availablePhotos = photos.value.filter(p => !visiblePhotos.value.includes(p))
       const randomPhoto = availablePhotos.length > 0
-        ? availablePhotos[Math.floor(Math.random() * availablePhotos.length)]
-        : photos.value[Math.floor(Math.random() * photos.value.length)]
+        ? availablePhotos[Math.floor(Math.random() * availablePhotos.length)]!
+        : photos.value[Math.floor(Math.random() * photos.value.length)]!
 
       featuredPhoto.value = randomPhoto
 

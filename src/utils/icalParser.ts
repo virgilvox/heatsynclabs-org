@@ -27,12 +27,12 @@ export function parseICalendar(icalData: string): ParsedCalendar {
   console.log('Parsing iCal data, total lines:', lines.length)
 
   for (let i = 0; i < lines.length; i++) {
-    let line = lines[i].trim()
+    let line = lines[i]!.trim()
 
     // Handle line continuations (lines starting with space or tab)
-    while (i + 1 < lines.length && /^[ \t]/.test(lines[i + 1])) {
+    while (i + 1 < lines.length && /^[ \t]/.test(lines[i + 1]!)) {
       i++
-      line += lines[i].substring(1)
+      line += lines[i]!.substring(1)
     }
 
     if (line === 'BEGIN:VEVENT') {
@@ -50,7 +50,7 @@ export function parseICalendar(icalData: string): ParsedCalendar {
     } else if (currentEvent && line.includes(':')) {
       const colonIndex = line.indexOf(':')
       const fullProperty = line.substring(0, colonIndex)
-      const property = fullProperty.split(';')[0].toUpperCase()
+      const property = fullProperty.split(';')[0]!.toUpperCase()
       const value = line.substring(colonIndex + 1)
 
       // Parse ALL properties, not just specific ones
@@ -140,7 +140,7 @@ export function parseICalDate(icalDate: string): Date {
   if (icalDate.includes('T')) {
     // Has time component
     const [datePart, timePart] = icalDate.split('T')
-    cleanDate = datePart + 'T' + timePart.replace(/Z$/, '') // Remove trailing Z
+    cleanDate = datePart + 'T' + timePart!.replace(/Z$/, '') // Remove trailing Z
   }
 
   if (cleanDate.length === 8) {
@@ -154,13 +154,13 @@ export function parseICalDate(icalDate: string): Date {
   } else if (cleanDate.includes('T')) {
     // DateTime: YYYYMMDDTHHMMSS
     const [datePart, timePart] = cleanDate.split('T')
-    const year = parseInt(datePart.substring(0, 4))
-    const month = parseInt(datePart.substring(4, 6)) - 1
-    const day = parseInt(datePart.substring(6, 8))
+    const year = parseInt(datePart!.substring(0, 4))
+    const month = parseInt(datePart!.substring(4, 6)) - 1
+    const day = parseInt(datePart!.substring(6, 8))
 
-    const hour = parseInt(timePart.substring(0, 2) || '0')
-    const minute = parseInt(timePart.substring(2, 4) || '0')
-    const second = parseInt(timePart.substring(4, 6) || '0')
+    const hour = parseInt(timePart!.substring(0, 2) || '0')
+    const minute = parseInt(timePart!.substring(2, 4) || '0')
+    const second = parseInt(timePart!.substring(4, 6) || '0')
 
     const date = new Date(year, month, day, hour, minute, second)
 
@@ -195,7 +195,7 @@ function unescapeICalValue(value: string): string {
  * Check if an iCal date represents an all-day event
  */
 export function isAllDayEvent(dtstart: string): boolean {
-  return dtstart && !dtstart.includes('T')
+  return Boolean(dtstart && !dtstart.includes('T'))
 }
 
 /**

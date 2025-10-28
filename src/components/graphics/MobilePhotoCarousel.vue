@@ -38,7 +38,7 @@ const loadPhotos = async () => {
     photos.value = fetchedPhotos
 
     if (fetchedPhotos.length > 0) {
-      currentPhoto.value = fetchedPhotos[0]
+      currentPhoto.value = fetchedPhotos[0]!
       startRotation()
     }
   } catch (error) {
@@ -51,7 +51,7 @@ const startRotation = () => {
 
   rotationInterval = setInterval(() => {
     currentIndex.value = (currentIndex.value + 1) % photos.value.length
-    currentPhoto.value = photos.value[currentIndex.value]
+    currentPhoto.value = photos.value[currentIndex.value]!
   }, ROTATION_DURATION)
 }
 
@@ -71,7 +71,7 @@ const onImageError = () => {
   // Move to next photo if current one fails
   if (photos.value.length > 1) {
     currentIndex.value = (currentIndex.value + 1) % photos.value.length
-    currentPhoto.value = photos.value[currentIndex.value]
+    currentPhoto.value = photos.value[currentIndex.value]!
   }
 }
 

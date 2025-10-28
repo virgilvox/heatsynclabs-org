@@ -76,7 +76,7 @@ const weeklySchedule = computed(() => {
 
     if (dayEvents.length > 0) {
       // Use the first event found for this day
-      const event = dayEvents[0]
+      const event = dayEvents[0]!
       const startTime = format(event.start, 'h:mm a')
       const endTime = format(event.end, 'h:mm a')
 

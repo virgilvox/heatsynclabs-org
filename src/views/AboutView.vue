@@ -57,7 +57,7 @@
               width="100%"
               height="300"
               style="border:0; border-radius: var(--radius-base);"
-              allowfullscreen=""
+              allowfullscreen
               loading="lazy"
               referrerpolicy="no-referrer-when-downgrade"
               class="location__iframe"
