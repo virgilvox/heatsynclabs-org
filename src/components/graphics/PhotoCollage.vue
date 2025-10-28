@@ -365,10 +365,32 @@ onUnmounted(() => {
 }
 
 /* Responsive adjustments */
+@media (max-width: 1024px) {
+  .collage-container {
+    gap: var(--space-2);
+    padding: var(--space-3);
+  }
+
+  .featured-container {
+    padding: var(--space-3);
+  }
+
+  .featured-overlay {
+    bottom: var(--space-4);
+    left: var(--space-4);
+    right: var(--space-4);
+    padding: var(--space-3);
+  }
+
+  .featured-title {
+    font-size: var(--text-base);
+  }
+}
+
 @media (max-width: 768px) {
   .collage-container {
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
     gap: var(--space-1);
     padding: var(--space-2);
   }
@@ -399,13 +421,88 @@ onUnmounted(() => {
   }
 
   .photo-item--5 {
-    grid-column: 1 / 3;
-    grid-row: 4 / 5;
+    display: none;
   }
 
-  .photo-item--6,
-  .photo-item--7 {
+  .featured-container {
+    padding: var(--space-2);
+  }
+
+  .featured-overlay {
+    bottom: var(--space-2);
+    left: var(--space-2);
+    right: var(--space-2);
+    padding: var(--space-2);
+  }
+
+  .featured-title {
+    font-size: var(--text-sm);
+  }
+
+  .photo-title {
+    font-size: 10px;
+  }
+
+  .photo-overlay {
+    padding: var(--space-2);
+  }
+}
+
+@media (max-width: 480px) {
+  .collage-container {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 4px;
+    padding: var(--space-1);
+  }
+
+  .photo-item--0 {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+
+  .photo-item--1 {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+  }
+
+  .photo-item--2 {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+  }
+
+  .photo-item--3 {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+  }
+
+  .photo-item--4,
+  .photo-item--5 {
     display: none;
+  }
+
+  .featured-container {
+    padding: var(--space-1);
+  }
+
+  .featured-overlay {
+    bottom: var(--space-1);
+    left: var(--space-1);
+    right: var(--space-1);
+    padding: var(--space-1);
+  }
+
+  .featured-title {
+    font-size: var(--text-xs);
+  }
+
+  .photo-title {
+    font-size: 8px;
+    line-height: 1.1;
+  }
+
+  .photo-overlay {
+    padding: var(--space-1);
   }
 }
 </style>

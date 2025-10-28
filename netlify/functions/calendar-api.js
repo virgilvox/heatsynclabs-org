@@ -1,6 +1,6 @@
-const https = require('https');
+import https from 'https';
 
-exports.handler = async (event, context) => {
+export const handler = async (event, context) => {
   // Set CORS headers
   const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -29,20 +29,20 @@ exports.handler = async (event, context) => {
   try {
     const { timeMin, timeMax, maxResults = '50' } = event.queryStringParameters || {};
 
-    if (!process.env.GOOGLE_CALENDAR_API_KEY || !process.env.GOOGLE_CALENDAR_ID) {
+    if (!process.env.GOOGLE_API_KEY || !process.env.CALENDAR_ID) {
       return {
         statusCode: 500,
         headers,
         body: JSON.stringify({
-          error: 'Missing environment variables. Please set GOOGLE_CALENDAR_API_KEY and GOOGLE_CALENDAR_ID'
+          error: 'Missing environment variables. Please set GOOGLE_API_KEY and CALENDAR_ID'
         }),
       };
     }
 
     // Build the Google Calendar API URL
     const baseUrl = 'https://www.googleapis.com/calendar/v3/calendars';
-    const calendarId = encodeURIComponent(process.env.GOOGLE_CALENDAR_ID);
-    const apiKey = process.env.GOOGLE_CALENDAR_API_KEY;
+    const calendarId = encodeURIComponent(process.env.CALENDAR_ID);
+    const apiKey = process.env.GOOGLE_API_KEY;
 
     const params = new URLSearchParams({
       key: apiKey,

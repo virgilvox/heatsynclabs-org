@@ -15,12 +15,6 @@
 
           <p>Your membership supports the space. It helps pay rent, keep equipment repaired, and make sure HeatSync stays open for the next person who needs it.</p>
 
-          <div class="support-section">
-            <h3>Support HeatSync Labs</h3>
-            <p>Help keep our doors open and equipment running with a donation.</p>
-            <DonateButton />
-          </div>
-
           <p>Members get a few extra perks:</p>
 
           <ul>
@@ -114,7 +108,7 @@
 
 <script setup lang="ts">
 import BaseContainer from '../components/base/BaseContainer.vue'
-import DonateButton from '../components/base/DonateButton.vue'
+import StyledDonateButton from '../components/base/StyledDonateButton.vue'
 </script>
 
 <style scoped>

@@ -75,7 +75,7 @@
             :title="`${event.title} - ${formatEventTime(event)}`"
             @click="openEventModal(event)"
           >
-            <span class="event-title">{{ truncateTitle(event.title, 15) }}</span>
+            <span class="event-title">{{ getTruncatedTitle(event.title) }}</span>
           </div>
           <div v-if="day.events.length > 3" class="more-events">
             +{{ day.events.length - 3 }} more
@@ -218,6 +218,19 @@ const formatMonthYear = (date: Date) => {
 const truncateTitle = (title: string, maxLength: number) => {
   if (title.length <= maxLength) return title
   return title.substring(0, maxLength) + '...'
+}
+
+const getTruncatedTitle = (title: string) => {
+  // Responsive title truncation based on screen size
+  if (window.innerWidth <= 360) {
+    return truncateTitle(title, 6)
+  } else if (window.innerWidth <= 480) {
+    return truncateTitle(title, 8)
+  } else if (window.innerWidth <= 768) {
+    return truncateTitle(title, 10)
+  } else {
+    return truncateTitle(title, 15)
+  }
 }
 
 const formatEventTime = (event: CalendarEvent) => {
@@ -521,37 +534,327 @@ onMounted(() => {
 
 
 /* Responsive */
-@media (max-width: 768px) {
-  .calendar-header {
-    flex-direction: column;
-    gap: var(--space-4);
+@media (max-width: 1024px) {
+  .full-calendar {
+    padding: 0 var(--space-4);
   }
 
-  .calendar-grid {
+  .calendar-header {
+    margin-bottom: var(--space-6);
+  }
+
+  .month-year {
+    font-size: var(--text-2xl);
+  }
+
+  .nav-button {
+    padding: var(--space-2) var(--space-4);
     font-size: var(--text-xs);
   }
 
   .calendar-day {
-    min-height: 80px;
+    min-height: 100px;
+  }
+
+  .recurring-event-item {
+    flex: 0 0 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  .full-calendar {
+    padding: 0 var(--space-2);
+  }
+
+  .calendar-header {
+    flex-direction: column;
+    gap: var(--space-3);
+    text-align: center;
+  }
+
+  .month-year {
+    font-size: var(--text-xl);
+    order: -1;
+  }
+
+  .nav-button {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-xs);
+    flex: 1;
+    max-width: 120px;
+  }
+
+  .calendar-grid {
+    font-size: var(--text-xs);
+    margin-bottom: var(--space-8);
+  }
+
+  .day-header {
+    padding: var(--space-2);
+    font-size: var(--text-xs);
+  }
+
+  .calendar-day {
+    min-height: 70px;
     padding: var(--space-1);
+  }
+
+  .day-number {
+    font-size: var(--text-xs);
+    margin-bottom: 2px;
   }
 
   .event-dot {
     padding: 1px var(--space-1);
+    font-size: 10px;
+  }
+
+  .event-title {
+    line-height: 1.1;
+  }
+
+  .more-events {
+    font-size: 10px;
+    padding: 1px;
   }
 
   .events-grid {
     grid-template-columns: 1fr;
+    gap: var(--space-3);
   }
 
-  .event-card {
-    flex-direction: column;
+  .recurring-event-item {
+    flex: 0 0 260px;
+    min-height: 100px;
+    padding: var(--space-3);
+  }
+
+  .recurring-event-title {
+    font-size: var(--text-base);
+    line-height: 1.3;
+  }
+
+  .recurring-event-next {
+    font-size: var(--text-xs);
+  }
+
+  .events-list {
+    margin-top: var(--space-8);
+  }
+
+  .events-title {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-4);
+  }
+}
+
+@media (max-width: 480px) {
+  .full-calendar {
+    padding: 0;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  .calendar-header {
+    padding: 0 var(--space-2);
+    gap: var(--space-2);
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .month-year {
+    font-size: var(--text-lg);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .nav-button {
+    padding: var(--space-1) var(--space-2);
+    font-size: 10px;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+    min-width: 60px;
+  }
+
+  .calendar-grid {
+    border-radius: 0;
+    margin-bottom: var(--space-6);
+    width: 100%;
+    max-width: 100vw;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .day-header {
+    padding: var(--space-1);
+    font-size: 9px;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .calendar-day {
+    min-height: 50px;
+    padding: 1px;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .day-number {
+    font-size: 10px;
+    margin-bottom: 1px;
     text-align: center;
   }
 
-  .event-date {
-    align-self: center;
+  .calendar-day.today .day-number {
+    width: 16px;
+    height: 16px;
+    font-size: 9px;
+  }
+
+  .day-events {
+    gap: 1px;
+  }
+
+  .event-dot {
+    padding: 1px;
+    font-size: 8px;
+    border-radius: 1px;
+    margin-bottom: 1px;
+    overflow: hidden;
+  }
+
+  .event-title {
+    line-height: 1;
+    font-size: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .more-events {
+    font-size: 7px;
+    margin-top: 1px;
+    text-align: center;
+  }
+
+  .recurring-events-carousel {
+    padding: 0 var(--space-2);
+    gap: var(--space-2);
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .recurring-event-item {
+    flex: 0 0 220px;
+    min-height: 80px;
+    padding: var(--space-2);
+  }
+
+  .recurring-event-title {
+    font-size: var(--text-sm);
+    line-height: 1.2;
+  }
+
+  .recurring-event-next {
+    font-size: 10px;
+    gap: var(--space-1);
+  }
+
+  .recurring-event-next .calendar-icon {
+    width: 10px;
+    height: 10px;
+  }
+
+  .events-list {
+    margin-top: var(--space-4);
+    padding: 0 var(--space-2);
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .events-title {
+    font-size: var(--text-lg);
     margin-bottom: var(--space-3);
+  }
+}
+
+/* Ultra small screens */
+@media (max-width: 360px) {
+  .calendar-header {
+    padding: 0 var(--space-1);
+  }
+
+  .month-year {
+    font-size: var(--text-base);
+  }
+
+  .nav-button {
+    padding: var(--space-1);
+    font-size: 9px;
+    min-width: 50px;
+  }
+
+  .calendar-day {
+    min-height: 45px;
+    padding: 1px;
+  }
+
+  .day-header {
+    padding: 2px;
+    font-size: 8px;
+  }
+
+  .day-number {
+    font-size: 9px;
+  }
+
+  .calendar-day.today .day-number {
+    width: 14px;
+    height: 14px;
+    font-size: 8px;
+  }
+
+  .event-dot {
+    font-size: 7px;
+    padding: 1px;
+  }
+
+  .event-title {
+    font-size: 7px;
+  }
+
+  .more-events {
+    font-size: 6px;
+  }
+
+  .recurring-event-item {
+    flex: 0 0 180px;
+    min-height: 70px;
+    padding: var(--space-1);
+  }
+
+  .recurring-event-title {
+    font-size: var(--text-xs);
+    line-height: 1.1;
+  }
+
+  .recurring-event-next {
+    font-size: 9px;
+  }
+
+  .recurring-event-next .calendar-icon {
+    width: 8px;
+    height: 8px;
+  }
+
+  .events-list {
+    padding: 0 var(--space-1);
+  }
+
+  .events-title {
+    font-size: var(--text-base);
   }
 }
 </style>

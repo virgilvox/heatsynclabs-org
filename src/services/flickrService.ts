@@ -14,8 +14,8 @@ export class FlickrService {
 
   async getPhotos(limit: number = 20): Promise<FlickrPhoto[]> {
     try {
-      // Use a CORS proxy to fetch the XML data
-      const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(this.FLICKR_API_URL)}`)
+      // Use our Netlify function to fetch the XML data
+      const response = await fetch(`/.netlify/functions/flickr-api?limit=${limit}`)
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)

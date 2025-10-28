@@ -25,9 +25,9 @@
           <h4 class="footer__title">Resources</h4>
           <nav class="footer__nav">
             <a href="https://wiki.heatsynclabs.org" class="footer__link" target="_blank" rel="noopener">Wiki</a>
-            <a href="#" class="footer__link">Equipment List</a>
-            <a href="#" class="footer__link">Project Gallery</a>
-            <a href="#" class="footer__link">Member Portal</a>
+            <a href="https://members.heatsynclabs.org/resources" class="footer__link" target="_blank" rel="noopener">Equipment List</a>
+            <a href="https://www.flickr.com/people/hslphotosync/" class="footer__link" target="_blank" rel="noopener">Project Gallery</a>
+            <a href="https://members.heatsynclabs.org" class="footer__link" target="_blank" rel="noopener">Member Portal</a>
           </nav>
         </div>
 

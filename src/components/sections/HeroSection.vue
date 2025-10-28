@@ -23,6 +23,13 @@
         <PhotoCollage />
       </div>
     </BaseContainer>
+
+    <!-- Mobile photo carousel - only visible on small screens -->
+    <div class="hero__mobile-photos">
+      <BaseContainer>
+        <MobilePhotoCarousel />
+      </BaseContainer>
+    </div>
   </section>
 </template>
 
@@ -30,6 +37,7 @@
 import BaseContainer from '../base/BaseContainer.vue'
 import BaseButton from '../base/BaseButton.vue'
 import PhotoCollage from '../graphics/PhotoCollage.vue'
+import MobilePhotoCarousel from '../graphics/MobilePhotoCarousel.vue'
 </script>
 
 <style scoped>
@@ -87,16 +95,31 @@ import PhotoCollage from '../graphics/PhotoCollage.vue'
   z-index: var(--z-base);
 }
 
+.hero__mobile-photos {
+  display: none;
+  padding: var(--space-8) 0 0;
+}
+
 /* Responsive */
+@media (max-width: 1024px) {
+  .hero__pattern {
+    right: -200px;
+    width: 500px;
+    opacity: 0.8;
+  }
+}
+
 @media (max-width: 768px) {
   .hero {
-    padding: var(--space-20) 0 var(--space-16);
+    padding: var(--space-20) 0 var(--space-8);
   }
 
   .hero__pattern {
-    right: -300px;
-    width: 500px;
-    opacity: 0.7;
+    display: none;
+  }
+
+  .hero__mobile-photos {
+    display: block;
   }
 
   .hero__actions {

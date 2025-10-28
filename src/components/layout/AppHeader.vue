@@ -10,7 +10,7 @@
           <li><router-link to="/about" class="nav__link">About</router-link></li>
           <li><router-link to="/membership" class="nav__link">Membership</router-link></li>
           <li><router-link to="/calendar" class="nav__link">Events</router-link></li>
-          <li><a href="https://www.hackster.io/heatsync-labs1/" class="nav__link" target="_blank" rel="noopener">Projects</a></li>
+          <li><a href="https://www.flickr.com/people/hslphotosync/" class="nav__link" target="_blank" rel="noopener">Projects</a></li>
           <li><a href="https://wiki.heatsynclabs.org" class="nav__link" target="_blank" rel="noopener">Wiki</a></li>
           <li><router-link to="/classes" class="nav__link">Classes</router-link></li>
           <li><router-link to="/support" class="nav__link">Support Us</router-link></li>
@@ -34,7 +34,7 @@
           <li><router-link to="/about" class="nav__mobile-link" @click="closeMobileMenu">About</router-link></li>
           <li><router-link to="/membership" class="nav__mobile-link" @click="closeMobileMenu">Membership</router-link></li>
           <li><router-link to="/calendar" class="nav__mobile-link" @click="closeMobileMenu">Events</router-link></li>
-          <li><a href="https://www.hackster.io/heatsync-labs1/" class="nav__mobile-link" target="_blank" rel="noopener">Projects</a></li>
+          <li><a href="https://www.flickr.com/people/hslphotosync/" class="nav__mobile-link" target="_blank" rel="noopener">Projects</a></li>
           <li><a href="https://wiki.heatsynclabs.org" class="nav__mobile-link" target="_blank" rel="noopener">Wiki</a></li>
           <li><router-link to="/classes" class="nav__mobile-link" @click="closeMobileMenu">Classes</router-link></li>
           <li><router-link to="/support" class="nav__mobile-link" @click="closeMobileMenu">Support Us</router-link></li>
