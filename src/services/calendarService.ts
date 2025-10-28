@@ -1,4 +1,4 @@
-import { format, isAfter, isBefore, addDays, startOfDay, startOfMonth, endOfMonth } from 'date-fns'
+import { format, isAfter, isBefore, addDays, subDays, startOfDay, startOfMonth, endOfMonth } from 'date-fns'
 
 export interface CalendarEvent {
   id: string
@@ -84,14 +84,16 @@ export class CalendarService {
    */
   async getEventsForMonth(monthDate: Date): Promise<CalendarEvent[]> {
     try {
-      // For month view, get events from start of month to end of month
+      // For month view, get events from a week before month start to end of month
+      // This ensures we capture events from the previous month that appear in the calendar grid
       const monthStart = startOfDay(startOfMonth(monthDate))
+      const fetchStart = subDays(monthStart, 7) // Fetch from 7 days before month start
       const monthEnd = endOfMonth(monthDate)
 
-      const timeMin = monthStart.toISOString()
+      const timeMin = fetchStart.toISOString()
       const timeMax = monthEnd.toISOString()
 
-      console.log('Fetching month events from Netlify function:', format(monthDate, 'MMMM yyyy'))
+      console.log('Fetching month events from Netlify function:', format(monthDate, 'MMMM yyyy'), `(from ${format(fetchStart, 'MMM d')} to ${format(monthEnd, 'MMM d')})`)
 
       const data = await this.fetchFromNetlifyFunction(timeMin, timeMax)
       console.log(`API Response for ${format(monthDate, 'MMMM yyyy')}:`, data)
