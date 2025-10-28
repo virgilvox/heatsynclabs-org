@@ -81,7 +81,7 @@ const weeklySchedule = computed(() => {
       const endTime = format(event.end, 'h:mm a')
 
       schedule.push({
-        name: dayName,
+        name: dayName!,
         hours: event.isAllDay ? 'All Day' : `${startTime} - ${endTime}`,
         isOpen: true,
         dayOfWeek: dayOfWeek
@@ -90,7 +90,7 @@ const weeklySchedule = computed(() => {
       // Use default for this day
       const defaultDay = defaultSchedule.find(d => d.dayOfWeek === dayOfWeek)
       schedule.push({
-        name: dayName,
+        name: dayName!,
         hours: defaultDay?.hours || 'Members 24/7',
         isOpen: defaultDay?.isOpen || false,
         dayOfWeek: dayOfWeek
