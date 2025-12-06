@@ -61,6 +61,23 @@
           <p>If you'd rather just visit or volunteer, that's fine too. You don't have to be a member to learn, teach, or build here.</p>
         </section>
 
+        <section class="membership-section donation-section">
+          <h2>Support HeatSync Labs</h2>
+
+          <p>Not ready for membership but want to support the space? You can make a one-time or recurring donation to help keep HeatSync Labs running. Every contribution helps us maintain equipment, pay rent, and keep the doors open for our community.</p>
+
+          <div class="donation-button-wrapper">
+            <a href="https://www.zeffy.com/en-US/donation-form/donate-to-heatsync"
+               class="donation-button"
+               target="_blank"
+               rel="noopener">
+              Donate via Zeffy
+            </a>
+          </div>
+
+          <p class="donation-note">Zeffy is a free donation platform that doesn't take any fees from your contribution. 100% of your donation goes directly to HeatSync Labs.</p>
+        </section>
+
         <section class="membership-section">
           <h2>Volunteering and Involvement</h2>
 
@@ -258,6 +275,44 @@ import StyledDonateButton from '../components/base/StyledDonateButton.vue'
 .support-section p {
   margin-bottom: var(--space-4);
   color: var(--graphite);
+}
+
+.donation-section {
+  background: var(--cream);
+  padding: var(--space-6);
+  border-radius: var(--radius-base);
+  border: 2px solid var(--accent-sage);
+  text-align: center;
+}
+
+.donation-button-wrapper {
+  margin: var(--space-6) 0;
+}
+
+.donation-button {
+  display: inline-block;
+  padding: var(--space-4) var(--space-8);
+  background: var(--accent-rust);
+  color: var(--off-white);
+  font-size: var(--text-lg);
+  font-weight: var(--font-medium);
+  font-family: var(--font-sans);
+  text-decoration: none;
+  border-radius: var(--radius-base);
+  transition: all var(--transition-base);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.donation-button:hover {
+  background: var(--accent-sage);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.donation-note {
+  font-size: var(--text-sm);
+  color: var(--warm-gray);
+  font-style: italic;
 }
 
 @media (max-width: 768px) {

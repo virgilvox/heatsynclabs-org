@@ -1,572 +1,592 @@
-# HeatSync Labs Website Technical Documentation
+# HeatSync Labs Website
 
-## Project Overview
+## Overview
 
-Vue 3 single-page application built with TypeScript and Vite, deployed on Netlify with serverless functions. Serves as the official website for HeatSync Labs, a community hackerspace in Mesa, Arizona.
+Vue 3 single-page application built with TypeScript and Vite, deployed on GitHub Pages with Cloudflare Workers for serverless functions. Serves as the official website for HeatSync Labs, a community hackerspace in Mesa, Arizona.
 
 ## Technology Stack
 
 ### Frontend
-- **Vue 3.5.22**: Component framework with Composition API
-- **TypeScript 5.9**: Type safety and enhanced development experience
-- **Vite 7.1.11**: Build tool and development server
-- **Vue Router 4.6.3**: Client-side routing
+- **Vue 3.5.22**: Progressive JavaScript framework
+- **TypeScript**: Type-safe JavaScript
+- **Vite 7.1.11**: Fast build tool and dev server
+- **Vue Router 4.6.3**: SPA routing
 - **Pinia 3.0.3**: State management
-- **date-fns 4.1.0**: Date manipulation and formatting
 
 ### Backend/Serverless
-- **Netlify Functions**: Serverless API endpoints
+- **Cloudflare Workers**: Serverless API endpoints
 - **Node.js 20.19.0**: Runtime environment
 
-### External APIs
-- **Google Calendar API**: Event data retrieval
-- **Flickr API**: Photo gallery content
+### UI/Styling
+- **CSS3**: Modern styling with CSS Grid and Flexbox
+- **Responsive Design**: Mobile-first approach
+- **Custom CSS Variables**: Theme consistency
+
+### Deployment
+- **GitHub Pages**: Static site hosting
+- **GitHub Actions**: Automated CI/CD pipeline
 
 ## Project Structure
 
 ```
+heatsync-labs/
 ├── src/
-│   ├── components/          # Reusable Vue components
-│   │   ├── base/           # Foundation components (buttons, containers)
+│   ├── assets/             # Static assets (images, fonts)
+│   ├── components/
 │   │   ├── calendar/       # Calendar-related components
-│   │   ├── events/         # Event display components
-│   │   ├── graphics/       # Visual/design components
-│   │   ├── icons/          # SVG icon components
-│   │   ├── info/           # Information display components
-│   │   ├── layout/         # Page layout components
-│   │   ├── schedule/       # Schedule-related components
-│   │   ├── sections/       # Page section components
-│   │   └── status/         # Status indicator components
-│   ├── services/           # API service classes
-│   ├── stores/             # Pinia state management
-│   ├── utils/              # Utility functions
-│   ├── views/              # Page-level components
-│   ├── router/             # Route definitions
+│   │   ├── graphics/       # Visual/media components
+│   │   ├── layout/         # Layout components (header, footer)
+│   │   ├── schedule/       # Schedule/hours components
+│   │   └── sections/       # Page section components
+│   ├── router/             # Vue Router configuration
+│   ├── services/           # API service modules
+│   ├── stores/             # Pinia state stores
+│   ├── styles/             # Global styles
+│   ├── utils/              # Helper functions
+│   ├── views/              # Page components
+│   ├── App.vue             # Root component
 │   └── main.ts             # Application entry point
-├── netlify/
-│   └── functions/          # Serverless API functions
+├── cloudflare-workers/
+│   └── *.js                # Serverless API functions
 ├── public/                 # Static assets
-└── dist/                   # Build output (generated)
+├── .github/
+│   └── workflows/          # GitHub Actions workflows
+├── dist/                   # Production build output
+└── Configuration files
 ```
 
-## Component Architecture
+## Key Features
 
-### Base Components
-Located in `src/components/base/`
+### 🏠 Home Page
+- Hero section with animated background
+- Dynamic photo collage from Flickr API
+- Real-time upcoming events display
+- Quick access navigation buttons
+- Interactive schedule display with current status
 
-#### BaseButton.vue
-Button component with variant support (primary, secondary) and size options (sm, md, lg). Supports both router links and external URLs.
+### 📅 Calendar Integration
+- Full-month calendar view with event details
+- Upcoming events list with filtering
+- Integration with Google Calendar API
+- Support for recurring and all-day events
+- Mobile-responsive design
 
-**Props:**
-- `variant`: "primary" | "secondary" | "ghost"
-- `size`: "sm" | "md" | "lg"
-- `to`: Vue Router destination
-- `href`: External URL
-- `target`, `rel`: Standard link attributes
+### 📸 Photo Gallery
+- Flickr API integration for latest photos
+- Mobile carousel view
+- Desktop collage layout
+- Automatic image optimization
 
-#### BaseContainer.vue
-Responsive container component providing consistent max-width and centering across the site.
+### 🕐 Schedule Display
+- Dynamic open/closed status
+- Current and upcoming hours
+- Holiday schedule handling
+- Real-time countdown to next opening
 
-**Features:**
-- Responsive max-width: 1200px
-- Automatic horizontal centering
-- Horizontal padding for mobile devices
+### 📱 Mobile Responsiveness
+- Touch-friendly interfaces
+- Adaptive layouts for all screen sizes
+- Optimized navigation for mobile devices
+- Performance optimizations for mobile networks
 
-#### BaseCard.vue
-Card component for content grouping with consistent styling.
+## Component Documentation
 
-#### DonateButton.vue
-PayPal donation button using hosted button integration.
+### Core Components
 
-**Configuration:**
-- PayPal hosted button ID: `7596RGJWUWZZ4`
-- Opens in new tab/window
-
-#### StyledDonateButton.vue
-Enhanced donation button with gradient background and animated heart effects.
-
-**Features:**
-- Gradient background (rust to sage)
-- Floating heart animations on hover
-- Responsive design
-
-### Layout Components
-Located in `src/components/layout/`
-
-#### AppHeader.vue
-Site navigation header with responsive design.
+#### `App.vue`
+**Purpose:** Root component providing application structure and theme management
 
 **Features:**
-- Desktop horizontal navigation
-- Mobile hamburger menu
-- Active link highlighting
-- External link handling
-
-**Navigation Links:**
-- About, Membership, Events, Projects (Flickr), Wiki, Classes, Support Us
-
-#### AppFooter.vue
-Site footer with contact information, social links, and resources.
-
-**Sections:**
-- Location information
-- Social media links
-- Resource links (Wiki, Equipment List, Project Gallery, Member Portal)
-- Support options
-
-### Calendar Components
-Located in `src/components/calendar/`
-
-#### FullCalendar.vue
-Complete calendar implementation with month view and event listings.
-
-**Features:**
-- Month grid display with 7-day weeks
-- Event dot indicators with truncated titles
-- Recurring events carousel
-- Upcoming events list
-- Responsive design (mobile optimized)
-- Event modal integration
-
-**Responsive Breakpoints:**
-- 1024px: Tablet adjustments
-- 768px: Mobile layout (stacked header, smaller text)
-- 480px: Compact mobile (50px cells, 8px event text)
-- 360px: Ultra-compact (45px cells, 7px event text)
-
-**Event Handling:**
-- Filters out "Open Hours" and "Member Hours" from recurring events
-- Groups events by title for recurrence detection
-- Sorts events chronologically
-
-### Event Components
-Located in `src/components/events/`
-
-#### EventCard.vue
-Individual event display card for event listings.
-
-**Props:**
-- `event`: CalendarEvent object
-
-**Display Elements:**
-- Event title and description
-- Date and time formatting
-- Location information
-- Click handler for modal
-
-#### EventModal.vue
-Modal popup for detailed event information.
-
-**Props:**
-- `visible`: Boolean for modal state
-- `event`: CalendarEvent object
-
-**Features:**
-- Overlay background
-- Close button and escape key handling
-- Event details display
-
-### Graphics Components
-Located in `src/components/graphics/`
-
-#### PhotoCollage.vue
-Animated photo collage using Flickr API integration.
-
-**Features:**
-- 6-photo grid layout (3x2)
-- Featured single image mode
-- Automatic rotation (6s collage, 3s featured)
-- Fade transitions
-- Image lazy loading
-- Error handling for failed images
-
-**Responsive Design:**
-- Desktop: 3x2 grid
-- Tablet (1024px): Reduced spacing
-- Mobile (768px): Hidden (replaced by MobilePhotoCarousel)
-
-#### MobilePhotoCarousel.vue
-Mobile-optimized single image carousel.
-
-**Features:**
-- Single image display with 4-second rotation
-- Smooth fade transitions
-- Loading spinner
-- Error handling and auto-skip
-- Responsive height (300px desktop, 250px mobile)
+- CSS custom properties for theming
+- Global layout structure
+- Router view integration
 
 **Usage:**
-- Only visible on screens ≤768px
-- Positioned below hero content
-- Uses same Flickr service as PhotoCollage
+```vue
+<template>
+  <div id="app">
+    <AppHeader />
+    <RouterView />
+    <AppFooter />
+  </div>
+</template>
+```
 
-#### GeometricPattern.vue
-SVG-based decorative geometric pattern component.
+#### `AppHeader.vue`
+**Purpose:** Main navigation header with responsive menu
 
-### Service Layer
-Located in `src/services/`
+**Props:** None
 
-#### calendarService.ts
-Google Calendar API integration service.
+**Features:**
+- Sticky positioning
+- Mobile hamburger menu
+- Active route highlighting
+- Smooth scroll navigation
 
-**Class: CalendarService**
+**Events:**
+- `navigate`: Emitted when navigation occurs
+- `menu-toggle`: Mobile menu state change
+
+#### `AppFooter.vue`
+**Purpose:** Footer with contact info and quick links
+
+**Props:** None
+
+**Features:**
+- Social media links
+- Address with map link
+- Newsletter signup
+- Copyright information
+
+### Calendar Components
+
+#### `FullCalendar.vue`
+**Purpose:** Full month calendar display with event visualization
+
+**Props:**
+```typescript
+interface Props {
+  month?: Date           // Month to display (default: current)
+  events?: CalendarEvent[] // Events to display
+  showNavigation?: boolean // Show month navigation (default: true)
+}
+```
+
+**Features:**
+- Month grid layout
+- Event highlighting
+- Previous/next navigation
+- Mobile swipe gestures
+- Event detail popover
+
+**Events:**
+- `month-change`: New month selected
+- `event-click`: Event clicked for details
+
+#### `UpcomingEvents.vue`
+**Purpose:** List of upcoming events with filtering options
+
+**Props:**
+```typescript
+interface Props {
+  limit?: number         // Max events to show (default: 10)
+  daysAhead?: number     // Days to look ahead (default: 30)
+  showFilters?: boolean  // Show filter controls (default: true)
+}
+```
+
+**Features:**
+- Chronological event listing
+- Date grouping
+- Event type filtering
+- Load more pagination
+- Empty state handling
+
+### Graphics Components
+
+#### `PhotoCollage.vue`
+**Purpose:** Desktop photo grid display
+
+**Props:**
+```typescript
+interface Props {
+  photos?: FlickrPhoto[] // Photos to display
+  columns?: number       // Grid columns (default: 3)
+  gap?: number          // Grid gap in pixels (default: 16)
+}
+```
+
+**Features:**
+- Masonry-style layout
+- Lazy loading
+- Click to enlarge
+- Automatic resizing
+
+#### `MobilePhotoCarousel.vue`
+**Purpose:** Touch-friendly photo carousel for mobile
+
+**Props:**
+```typescript
+interface Props {
+  photos?: FlickrPhoto[]  // Photos to display
+  autoPlay?: boolean      // Auto-advance slides (default: true)
+  interval?: number       // Auto-play interval ms (default: 5000)
+}
+```
+
+**Features:**
+- Touch/swipe navigation
+- Dot indicators
+- Auto-play with pause on interaction
+- Image preloading
+
+### Schedule Components
+
+#### `OpenHours.vue`
+**Purpose:** Display current open status and hours
+
+**Props:** None
+
+**Features:**
+- Real-time status updates
+- Today's hours display
+- Next opening countdown
+- Holiday schedule alerts
+- Visual status indicators
+
+**Computed Properties:**
+- `isOpen`: Current open status
+- `nextOpening`: Next opening time
+- `todaySchedule`: Today's hours
+
+### Section Components
+
+#### `HeroSection.vue`
+**Purpose:** Landing page hero with call-to-action
+
+**Props:**
+```typescript
+interface Props {
+  title?: string          // Hero title
+  subtitle?: string       // Hero subtitle
+  backgroundImage?: string // Background image URL
+  showButtons?: boolean   // Show CTA buttons (default: true)
+}
+```
+
+**Features:**
+- Animated gradient background
+- Parallax scrolling effect
+- Responsive typography
+- Multiple CTA buttons
+
+## Service Documentation
+
+### Calendar Service
+**File:** `src/services/calendarService.ts`
+
+**Purpose:** Interface with Google Calendar API
 
 **Methods:**
-- `getEventsForMonth(date: Date)`: Retrieves events for specific month
-- `getRecurringEvents(days: number)`: Gets upcoming recurring events
-- `getAllEvents(days: number)`: Retrieves all events for date range
+```typescript
+getEvents(daysAhead?: number): Promise<CalendarEvent[]>
+getEventsForMonth(month: Date): Promise<CalendarEvent[]>
+getAllFutureEvents(): Promise<CalendarEvent[]>
+getRecurringEvents(daysAhead?: number): Promise<CalendarEvent[]>
+```
 
 **API Integration:**
-- Uses Netlify function `/netlify/functions/calendar-api`
+- Uses Cloudflare Worker endpoint
 - Processes Google Calendar API responses
-- Filters and formats event data
-- Handles timezone conversion
+- Handles error states gracefully
+- Implements caching for performance
 
-**Event Processing:**
-- Converts ISO date strings to Date objects
-- Determines all-day vs. timed events
-- Extracts location and description data
+**Event Format:**
+```typescript
+interface CalendarEvent {
+  id: string
+  title: string
+  description?: string
+  start: Date
+  end: Date
+  location?: string
+  isAllDay: boolean
+}
+```
 
-#### flickrService.ts
-Flickr API integration service.
+### Flickr Service
+**File:** `src/services/flickrService.ts`
 
-**Class: FlickrService**
+**Purpose:** Fetch and process photos from Flickr
 
 **Methods:**
-- `getPhotos(limit: number)`: Retrieves photos from Flickr
-
-**Configuration:**
-- User ID: `60827818@N07`
-- Tag filter: `publish`
-- Format: REST XML
+```typescript
+getPhotos(limit?: number): Promise<FlickrPhoto[]>
+```
 
 **API Integration:**
-- Uses Netlify function `/netlify/functions/flickr-api`
+- Uses Cloudflare Worker endpoint
 - Parses XML response using DOMParser
-- Constructs image URLs using Flickr URL patterns
-- Returns structured photo objects with thumbnails and full-size URLs
+- Generates appropriate image URLs
+- Handles API errors
 
-**Image URL Construction:**
-- Thumbnail: `_m.jpg` suffix
-- Full size: `_b.jpg` suffix
-- Pattern: `https://farm{farm}.staticflickr.com/{server}/{id}_{secret}_{size}.jpg`
+**Photo Format:**
+```typescript
+interface FlickrPhoto {
+  id: string
+  title: string
+  url: string        // Full-size image
+  thumbnail: string  // Thumbnail image
+  link: string      // Flickr page URL
+  farm: string
+  server: string
+  secret: string
+}
+```
 
-### Utility Functions
-Located in `src/utils/`
+## State Management
 
-#### icalParser.ts
-iCalendar (RFC 5545) parsing utilities for calendar data processing.
+### Navigation Store
+**File:** `src/stores/navigation.ts`
 
-### State Management
-Located in `src/stores/`
+**Purpose:** Global navigation state
 
-#### counter.ts
-Example Pinia store (can be removed if unused).
+**State:**
+```typescript
+interface NavigationState {
+  mobileMenuOpen: boolean
+  activeSection: string
+  scrollPosition: number
+}
+```
 
-### Views (Pages)
-Located in `src/views/`
+**Actions:**
+- `toggleMobileMenu()`: Toggle mobile menu
+- `setActiveSection(section: string)`: Update active section
+- `updateScrollPosition()`: Track scroll position
 
-#### HomeView.vue
-Landing page with hero section, info grid, and schedule.
+### Calendar Store
+**File:** `src/stores/calendar.ts`
 
-**Sections:**
-- HeroSection (with PhotoCollage/MobilePhotoCarousel)
-- InfoSection
-- ScheduleSection
+**Purpose:** Calendar data management
 
-#### AboutView.vue
-About page with organization information.
+**State:**
+```typescript
+interface CalendarState {
+  events: CalendarEvent[]
+  loading: boolean
+  error: string | null
+  selectedMonth: Date
+}
+```
 
-#### MembershipView.vue
-Membership information and application process.
+**Actions:**
+- `fetchEvents()`: Load events from API
+- `setMonth(month: Date)`: Change selected month
+- `refreshEvents()`: Force refresh events
 
-**Features:**
-- Membership tier explanations (Associate $25, Basic $50, Plus $100)
-- Benefits listing
-- Application process steps
-- Code of conduct reference
+## Routing
 
-#### CalendarView.vue
-Full calendar page implementation.
+Routes defined in `src/router/index.ts`:
 
-**Features:**
-- FullCalendar component integration
-- Event filtering and display
-- Recurring events showcase
+```typescript
+const routes = [
+  { path: '/', name: 'home', component: HomeView },
+  { path: '/about', name: 'about', component: AboutView },
+  { path: '/membership', name: 'membership', component: MembershipView },
+  { path: '/calendar', name: 'calendar', component: CalendarView },
+  { path: '/visit', name: 'visit', component: VisitView },
+  { path: '/community', name: 'community', component: CommunityView }
+]
+```
 
-#### ClassesView.vue
-Classes and educational program information.
+## Cloudflare Workers
 
-#### SupportView.vue
-Support and donation page.
+Located in `cloudflare-workers/`
 
-**Support Methods:**
-- Monthly membership signup
-- One-time PayPal donations
-- Cash/check donations
-- eBay store purchases
-- Equipment donations
-- Corporate sponsorship
+### Calendar Worker (`calendar-worker.js`)
 
-#### RegisterView.vue
-User registration page (if applicable).
+**Purpose:** Proxy Google Calendar API requests
 
-## Netlify Functions
+**Endpoint:** Deployed to Cloudflare Workers
 
-Located in `netlify/functions/`
-
-### calendar-api.js
-Serverless function for Google Calendar API proxy.
-
-**Endpoint:** `/.netlify/functions/calendar-api`
+**Parameters:**
+- `timeMin`: ISO date string for range start
+- `timeMax`: ISO date string for range end
+- `maxResults`: Maximum events to return (default: 50)
 
 **Environment Variables Required:**
 - `GOOGLE_API_KEY`: Google Calendar API key
 - `CALENDAR_ID`: Google Calendar ID
 
-**Parameters:**
-- `timeMin`: ISO date string for start range
-- `timeMax`: ISO date string for end range
-- `maxResults`: Maximum number of events (default: 50)
+**Response Format:**
+```json
+{
+  "items": [...],  // Google Calendar events
+  "timeZone": "America/Phoenix"
+}
+```
 
-**Functionality:**
-- Proxies requests to Google Calendar API
-- Adds CORS headers for frontend access
-- Handles API key authentication
-- Returns formatted JSON response
+### Flickr Worker (`flickr-worker.js`)
 
-**Error Handling:**
-- Missing environment variables
-- Google API errors
-- Network request failures
+**Purpose:** Proxy Flickr API requests
 
-### flickr-api.js
-Serverless function for Flickr API proxy.
-
-**Endpoint:** `/.netlify/functions/flickr-api`
+**Endpoint:** Deployed to Cloudflare Workers
 
 **Parameters:**
-- `limit`: Number of photos to retrieve (default: 20)
+- `limit`: Maximum photos to return (default: 20)
 
-**Functionality:**
-- Proxies requests to Flickr API
-- Fetches XML response from Flickr REST API
-- Adds CORS headers
-- Returns wrapped response for frontend consumption
-
-**Configuration:**
-- API Key: `bec64c9c0f28889dc6e0c5ef7be3511f`
-- User ID: `60827818@N07`
-- Tag Filter: `publish`
-
-## Environment Variables
-
-### Required for Netlify Functions
-```
-GOOGLE_API_KEY=your_google_calendar_api_key
-CALENDAR_ID=your_google_calendar_id
+**Response Format:**
+```json
+{
+  "contents": "XML string with photo data"
+}
 ```
 
-### Build Environment
-```
-NODE_VERSION=20.19.0
-```
-
-## Development Setup
+## Development
 
 ### Prerequisites
-- Node.js 20.19.0 or higher
-- npm 10.8.2 or higher
 
-### Installation
+- Node.js 20.19.0 or higher
+- npm or pnpm package manager
+- Git
+
+### Setup
+
 ```bash
 # Clone repository
-git clone https://github.com/virgilvox/heatsynclabs-org
-cd heatsynclabs-org
+git clone https://github.com/your-username/heatsync-website.git
+cd heatsync-website
 
 # Install dependencies
 npm install
 
-# Create environment file
+# Create .env file from example
 cp .env.example .env
-# Edit .env with required API keys
-```
 
-### Development Server
-```bash
-# Start Vite development server
+# Add your Cloudflare Worker URLs to .env
+# VITE_CALENDAR_API_URL=https://your-calendar-worker.workers.dev
+# VITE_FLICKR_API_URL=https://your-flickr-worker.workers.dev
+
+# Start development server
 npm run dev
-
-# Start Netlify development server (includes functions)
-netlify dev
 ```
 
 ### Available Scripts
+
 ```bash
-npm run dev          # Start Vite development server
-npm run build        # Build for production
-npm run preview      # Preview production build
-npm run type-check   # Run TypeScript type checking
-```
+# Development server with hot reload
+npm run dev
 
-## Deployment
+# Type checking
+npm run type-check
 
-### Netlify Configuration
-Configuration defined in `netlify.toml`:
+# Production build
+npm run build
 
-```toml
-[build]
-  publish = "dist"
-  command = "npm run build"
-  functions = "netlify/functions"
-
-[build.environment]
-  NODE_VERSION = "20.19.0"
-
-[dev]
-  command = "npm run dev"
-  port = 8888
-  targetPort = 5173
-  publish = "dist"
-  autoLaunch = false
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+# Preview production build
+npm run preview
 ```
 
 ### Build Process
-1. `npm run build` executes
-2. Runs TypeScript type checking (`vue-tsc --build`)
-3. Runs Vite build (`vite build`)
-4. Outputs to `dist/` directory
-5. Deploys static files and functions to Netlify
 
-### Environment Configuration
-Set the following environment variables in Netlify dashboard:
-- `GOOGLE_API_KEY`
-- `CALENDAR_ID`
+1. TypeScript compilation and type checking
+2. Vue SFC compilation
+3. Vite bundling and optimization
+4. Asset optimization
+5. Output to `dist/` directory
 
-### Deployment Steps
+### GitHub Pages Deployment
+
+#### Automatic Deployment
 1. Push code to main branch
-2. Netlify automatically detects changes
-3. Runs build process
-4. Deploys to production URL
+2. GitHub Actions workflow triggers
+3. Builds and deploys to GitHub Pages
 
-### Manual Deployment
+#### Manual Deployment
 ```bash
-# Build locally
+# Build for production
 npm run build
 
-# Deploy using Netlify CLI
-netlify deploy --prod --dir=dist
+# Deploy is handled by GitHub Actions
+git add .
+git commit -m "Update site"
+git push origin main
 ```
 
-## Responsive Design
+## Testing
 
-### Breakpoints
-- **1024px**: Tablet adjustments
-- **768px**: Mobile layout changes
-- **480px**: Compact mobile design
-- **360px**: Ultra-compact for small devices
+### Unit Testing
+```bash
+# Run unit tests (if configured)
+npm run test:unit
 
-### Mobile Optimizations
-- Collapsible navigation menu
-- Photo collage replaced with carousel
-- Calendar grid optimization
-- Touch-friendly button sizes
-- Reduced font sizes and spacing
+# Run with coverage
+npm run test:coverage
+```
 
-## API Integration
+### Manual Testing Checklist
+- [ ] Navigation links work correctly
+- [ ] Calendar events load and display
+- [ ] Photos load from Flickr
+- [ ] Mobile responsive design
+- [ ] Form submissions work
+- [ ] Error states handled gracefully
 
-### Google Calendar
-- **Purpose**: Event data retrieval
-- **Authentication**: API key-based
-- **Rate Limits**: Standard Google API limits
-- **Data Format**: Google Calendar API v3 JSON
+## Performance Optimization
 
-### Flickr
-- **Purpose**: Photo gallery content
-- **Authentication**: Public API key
-- **Data Format**: XML (parsed to JSON)
-- **Image Sizes**: Multiple sizes available
+### Current Optimizations
+- Lazy loading for images
+- Component code splitting
+- CSS purging for unused styles
+- Minification of JS/CSS
+- Compression of assets
 
-## Performance Considerations
+### Monitoring
+- Lighthouse scores
+- Core Web Vitals
+- Bundle size analysis
 
-### Image Optimization
-- Lazy loading for Flickr images
-- Multiple image sizes (thumbnail, full)
-- Error handling for failed loads
-
-### API Caching
-- No client-side caching implemented
-- Relies on browser and CDN caching
-
-### Bundle Size
-- Vite tree-shaking for unused code elimination
-- Dynamic imports where applicable
-
-## Security
+## Security Considerations
 
 ### API Key Protection
-- API keys stored as Netlify environment variables
+- API keys stored as environment variables in Cloudflare
 - No client-side API key exposure
-- Serverless functions act as proxy
+- Cloudflare Workers act as secure proxy
 
 ### CORS Configuration
-- Netlify functions include appropriate CORS headers
-- Frontend restricted to same-origin requests to functions
+- Cloudflare Workers include appropriate CORS headers
+- Frontend restricted to configured API endpoints
+
+### Content Security
+- Input sanitization
+- XSS protection
+- HTTPS enforcement via GitHub Pages
 
 ## Browser Support
 
-### Minimum Requirements
-- Modern browsers supporting ES2020+
-- Vue 3 browser compatibility
-- CSS Grid and Flexbox support
-
-### Tested Browsers
-- Chrome 90+
-- Firefox 88+
-- Safari 14+
-- Edge 90+
+- Chrome/Edge (latest 2 versions)
+- Firefox (latest 2 versions)
+- Safari (latest 2 versions)
+- Mobile browsers (iOS Safari, Chrome)
 
 ## Troubleshooting
 
 ### Common Issues
 
-#### Build Failures
-- **Node Version**: Ensure Node.js 20.19.0+ is used
-- **Dependencies**: Run `npm install` for fresh dependencies
-- **Environment Variables**: Verify all required env vars are set
-
-#### API Errors
-- **Calendar API**: Check `GOOGLE_API_KEY` and `CALENDAR_ID`
-- **Flickr API**: Verify Flickr service configuration
-- **CORS**: Ensure functions return proper CORS headers
+#### Build Errors
+- **TypeScript Errors**: Run `npm run type-check` to identify
+- **Missing Dependencies**: Delete `node_modules` and reinstall
+- **Build Failures**: Check Node version matches requirements
 
 #### Development Server
-- **Port Conflicts**: Netlify dev uses port 8888, Vite uses 5173
-- **Function Testing**: Use `/.netlify/functions/` prefix for local testing
+- **Port Conflicts**: Vite uses port 5173
+- **API Testing**: Ensure environment variables are set
 
-### Debugging
+#### Production Issues
+- **404 Errors**: Check GitHub Pages configuration
+- **API Failures**: Verify Cloudflare Worker URLs
+- **Broken Assets**: Check base URL in vite.config.ts
+
+### Debug Commands
 ```bash
-# Check Netlify function logs
-netlify dev
+# Check environment variables
+npm run build -- --mode development
 
-# Run type checking
-npm run type-check
+# Verbose logging
+DEBUG=* npm run dev
 
-# Build locally to test
-npm run build
+# Type checking with details
+npm run type-check -- --listFiles
 ```
 
 ## Maintenance
 
 ### Regular Tasks
 - Update dependencies monthly
+- Review and optimize bundle size
 - Monitor API rate limits
-- Review Netlify function performance
+- Review Cloudflare Worker performance
 - Update content as needed
 
 ### Dependency Updates
@@ -577,12 +597,30 @@ npm outdated
 # Update dependencies
 npm update
 
-# Update to latest major versions (with caution)
-npx npm-check-updates -u
-npm install
+# Update to latest major versions (carefully)
+npm install package@latest
 ```
 
 ### Performance Monitoring
-- Netlify Analytics for traffic
+- GitHub Pages deployment logs
 - Browser DevTools for frontend performance
-- Netlify Function logs for backend monitoring
+- Cloudflare dashboard for Worker monitoring
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run tests and type checking
+5. Submit a pull request
+
+## License
+
+[License information here]
+
+## Contact
+
+HeatSync Labs
+- Website: https://heatsynclabs.org
+- Email: info@heatsynclabs.org
+- Location: 108 W Main St, Mesa, AZ 85210

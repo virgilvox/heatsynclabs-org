@@ -11,12 +11,12 @@ export interface CalendarEvent {
 }
 
 export class CalendarService {
-  private readonly API_ENDPOINT = '/.netlify/functions/calendar-api'
+  private readonly API_ENDPOINT = import.meta.env.VITE_CALENDAR_API_URL || '/api/calendar'
 
   /**
-   * Make a request to our Netlify function
+   * Make a request to our API endpoint
    */
-  private async fetchFromNetlifyFunction(timeMin: string, timeMax?: string, maxResults: string = '2500'): Promise<any> {
+  private async fetchFromAPI(timeMin: string, timeMax?: string, maxResults: string = '2500'): Promise<any> {
     const params = new URLSearchParams({
       timeMin,
       maxResults
@@ -27,13 +27,13 @@ export class CalendarService {
     }
 
     const url = `${this.API_ENDPOINT}?${params}`
-    console.log('Fetching from Netlify function:', url)
+    console.log('Fetching from API:', url)
 
     const response = await fetch(url)
 
     if (!response.ok) {
       const errorText = await response.text()
-      throw new Error(`Netlify function error: ${response.status} ${response.statusText} - ${errorText}`)
+      throw new Error(`API error: ${response.status} ${response.statusText} - ${errorText}`)
     }
 
     return response.json()
@@ -50,9 +50,9 @@ export class CalendarService {
       const timeMin = now.toISOString()
       const timeMax = futureLimit.toISOString()
 
-      console.log('Fetching upcoming events from Netlify function')
+      console.log('Fetching upcoming events from API')
 
-      const data = await this.fetchFromNetlifyFunction(timeMin, timeMax)
+      const data = await this.fetchFromAPI(timeMin, timeMax)
       console.log('API Response:', data)
 
       if (!data.items) {
@@ -93,9 +93,9 @@ export class CalendarService {
       const timeMin = fetchStart.toISOString()
       const timeMax = monthEnd.toISOString()
 
-      console.log('Fetching month events from Netlify function:', format(monthDate, 'MMMM yyyy'), `(from ${format(fetchStart, 'MMM d')} to ${format(monthEnd, 'MMM d')})`)
+      console.log('Fetching month events from API:', format(monthDate, 'MMMM yyyy'), `(from ${format(fetchStart, 'MMM d')} to ${format(monthEnd, 'MMM d')})`)
 
-      const data = await this.fetchFromNetlifyFunction(timeMin, timeMax)
+      const data = await this.fetchFromAPI(timeMin, timeMax)
       console.log(`API Response for ${format(monthDate, 'MMMM yyyy')}:`, data)
 
       if (!data.items) {
@@ -137,9 +137,9 @@ export class CalendarService {
       const timeMin = now.toISOString()
       const timeMax = futureLimit.toISOString()
 
-      console.log('Fetching all future events from Netlify function')
+      console.log('Fetching all future events from API')
 
-      const data = await this.fetchFromNetlifyFunction(timeMin, timeMax)
+      const data = await this.fetchFromAPI(timeMin, timeMax)
 
       if (!data.items) {
         console.log('No future events found')
@@ -176,9 +176,9 @@ export class CalendarService {
       const timeMin = now.toISOString()
       const timeMax = futureLimit.toISOString()
 
-      console.log('Fetching all events including Open Hours from Netlify function')
+      console.log('Fetching all events including Open Hours from API')
 
-      const data = await this.fetchFromNetlifyFunction(timeMin, timeMax)
+      const data = await this.fetchFromAPI(timeMin, timeMax)
 
       if (!data.items) {
         console.log('No events found in response')
@@ -208,9 +208,9 @@ export class CalendarService {
       const timeMin = now.toISOString()
       const timeMax = futureLimit.toISOString()
 
-      console.log('Fetching recurring events from Netlify function')
+      console.log('Fetching recurring events from API')
 
-      const data = await this.fetchFromNetlifyFunction(timeMin, timeMax)
+      const data = await this.fetchFromAPI(timeMin, timeMax)
 
       // Filter for events that appear multiple times
       const recurringEvents = data.items ? data.items

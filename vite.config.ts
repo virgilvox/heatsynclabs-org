@@ -15,4 +15,6 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  // GitHub Pages deployment configuration
+  base: process.env.GITHUB_PAGES ? '/heatsync-website/' : '/',
 })

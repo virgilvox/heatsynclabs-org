@@ -35,7 +35,7 @@
           <h4 class="footer__title">Support</h4>
           <nav class="footer__nav">
             <router-link to="/membership" class="footer__link">Become a Member</router-link>
-            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7596RGJWUWZZ4" class="footer__link" target="_blank" rel="noopener">Donate</a>
+            <a href="https://www.zeffy.com/en-US/donation-form/donate-to-heatsync" class="footer__link" target="_blank" rel="noopener">Donate</a>
             <a href="#" class="footer__link">Sponsor</a>
             <a href="#" class="footer__link">Volunteer</a>
           </nav>
