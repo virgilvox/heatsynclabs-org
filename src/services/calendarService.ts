@@ -11,7 +11,7 @@ export interface CalendarEvent {
 }
 
 export class CalendarService {
-  private readonly API_ENDPOINT = import.meta.env.VITE_CALENDAR_API_URL || '/api/calendar'
+  private readonly API_ENDPOINT = import.meta.env.VITE_CALENDAR_API_URL || 'https://calendar-hsl.moheeb-698.workers.dev'
 
   /**
    * Make a request to our API endpoint
